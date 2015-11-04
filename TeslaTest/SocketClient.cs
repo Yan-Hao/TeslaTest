@@ -56,21 +56,13 @@ namespace TeslaTest
 
             // Free any unmanaged objects here.
             //
-            //try
-            //{
-            //Console.WriteLine("disposing socket");
+
             if (sender != null)
             {
                 sender.Shutdown(SocketShutdown.Both);
                 sender.Close();
                 sender = null;
             }
-            
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine("Unexpected exception : {0}", e.ToString());
-            //}
 
             disposed = true;
         }
@@ -82,16 +74,9 @@ namespace TeslaTest
 
         public void Send(string cmd)
         {
-            //try
-            //{
-                // append cmd seperator and send
-                byte[] msg = Encoding.ASCII.GetBytes(cmd + "|");
-                int bytesSent = sender.Send(msg);
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine("Unexpected exception : {0}", e.ToString());
-            //}
+            // append cmd seperator and send
+            byte[] msg = Encoding.ASCII.GetBytes(cmd + "|");
+            int bytesSent = sender.Send(msg);
         }
 
         public bool IsConnected()
@@ -116,44 +101,29 @@ namespace TeslaTest
             return sender;
         }
 
-        // https://msdn.microsoft.com/en-us/library/kb5kfec7(v=vs.110).aspx
         private static void Send(string hostName, int port, string cmd)
         {
             // Data buffer for incoming data.
             byte[] bytes = new byte[1024];
 
             // Connect to a remote device.
-            //try
-            //{
-                Socket sender = Connect(hostName, port);
 
-                // Encode the data string into a byte array.
-                byte[] msg = Encoding.ASCII.GetBytes(cmd);// Uri.EscapeDataString(cmd));
+            Socket sender = Connect(hostName, port);
 
-                // Send the data through the socket.
-                int bytesSent = sender.Send(msg);
+            // Encode the data string into a byte array.
+            byte[] msg = Encoding.ASCII.GetBytes(cmd);// Uri.EscapeDataString(cmd));
 
-                // Receive the response from the remote device.
-                int bytesRec = sender.Receive(bytes);
-                Console.WriteLine("Echoed test = {0}", Encoding.ASCII.GetString(bytes, 0, bytesRec));
+            // Send the data through the socket.
+            int bytesSent = sender.Send(msg);
 
-                // Release the socket.
-                sender.Shutdown(SocketShutdown.Both);
-                sender.Close();
+            // Receive the response from the remote device.
+            int bytesRec = sender.Receive(bytes);
+            Console.WriteLine("Echoed test = {0}", Encoding.ASCII.GetString(bytes, 0, bytesRec));
 
-            //}
-            //catch (ArgumentNullException ane)
-            //{
-            //    Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
-            //}
-            //catch (SocketException se)
-            //{
-            //    Console.WriteLine("SocketException : {0}", se.ToString());
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine("Unexpected exception : {0}", e.ToString());
-            //}
+            // Release the socket.
+            sender.Shutdown(SocketShutdown.Both);
+            sender.Close();
+
         }
 
         public static void SendVredCmd(string hostName, int port, string cmd)

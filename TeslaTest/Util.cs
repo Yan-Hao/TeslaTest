@@ -8,7 +8,7 @@ namespace TeslaTest
     {
         public static string GetPathUri(string filename)
         {
-            // get executing application's path https://msdn.microsoft.com/en-us/library/aa457089.aspx
+            // get executing application's path
             string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase);
             path = new Uri(path).LocalPath; // get rid of file:\\
             path = Path.Combine(path, filename);

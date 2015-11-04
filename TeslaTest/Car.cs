@@ -4,7 +4,6 @@ using System.Windows.Media.Media3D;
 
 namespace TeslaTest
 {
-    // adapted from https://github.com/spacejack/carphysics2d
     class Car
     {
         const float GRAVITY = 9.81f;                // m/s^2
